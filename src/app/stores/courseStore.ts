@@ -1,7 +1,6 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
 import { Course, CourseFormValues } from "../models/course";
-import { format } from 'date-fns';
 import { Pagination, PagingParams } from "../models/pagination";
 
 export default class CourseStore {
@@ -71,18 +70,7 @@ export default class CourseStore {
     }
 
     get coursesByDate() {
-        return Array.from(this.courseRegistry.values()).sort((a, b) =>
-            a.created_at!.getTime() - b.created_at!.getTime());
-    }
-
-    get groupedCourses() {
-        return Object.entries(
-            this.coursesByDate.reduce((courses, course) => {
-                const date = format(course.created_at!, 'dd MMM yyyy');
-                courses[date] = courses[date] ? [...courses[date], course] : [course];
-                return courses;
-            }, {} as { [key: string]: Course[] })
-        )
+        return Array.from(this.courseRegistry.values());
     }
 
     loadCourses = async () => {

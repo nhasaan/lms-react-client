@@ -28,7 +28,7 @@ export default observer(function CourseDetailedInfo({ course }: Props) {
                     </Grid.Column>
                     <Grid.Column width={15}>
                         <span>
-                            {format(course.created_at!, 'dd MMM yyyy h:mm aa')}
+                            {format(new Date(course.created_at!), 'dd MMM yyyy h:mm aa')}
                         </span>
                     </Grid.Column>
                 </Grid>

@@ -35,7 +35,7 @@ export default observer(function CourseDetailedHeader({ course }: Props) {
                                     content={course.title}
                                     style={{ color: 'white' }}
                                 />
-                                <p>{format(course.created_at!, 'dd MMM yyyy')}</p>
+                                <p>{format(new Date(course.created_at!), 'dd MMM yyyy')}</p>
                             </Item.Content>
                         </Item>
                     </Item.Group>

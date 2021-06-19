@@ -15,7 +15,7 @@ export default function CourseListItem({ course }: Props) {
             <Segment>
                 <Item.Group>
                     <Item>
-                        <Item.Image style={{ marginBottom: 3 }} size='tiny' circular src={'/assets/created_at/film.jpg'} />
+                        <Item.Image style={{ marginBottom: 3 }} size='tiny' circular src={'assets/categoryImages/film.jpg'} />
                         <Item.Content>
                             <Item.Header as={Link} to={`/courses/${course.id}`}>
                                 {course.title}
@@ -26,7 +26,7 @@ export default function CourseListItem({ course }: Props) {
             </Segment>
             <Segment>
                 <span>
-                    <Icon name='clock' /> {format(course.created_at!, 'dd MMM yyyy h:mm aa')}
+                    <Icon name='clock' /> {format(new Date(course.created_at!), 'dd MMM yyyy h:mm aa')}
                 </span>
             </Segment>
             <Segment clearing>
