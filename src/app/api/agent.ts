@@ -77,7 +77,7 @@ const Courses = {
     list: (params: URLSearchParams) => axios.get<PaginatedResult<Course[]>>('/courses', { params })
         .then(responseBody),
     details: (id: string) => requests.get<Course>(`/courses/${id}`),
-    create: (course: CourseFormValues) => requests.post<void>('/courses', course),
+    create: (course: CourseFormValues) => requests.post<Course>('/courses', course),
     update: (course: CourseFormValues) => requests.put<void>(`/courses/${course.id}`, course),
     delete: (id: string) => requests.del<void>(`/courses/${id}`)
 }

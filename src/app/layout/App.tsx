@@ -46,7 +46,7 @@ function App() {
               <Switch>
                 <PrivateRoute exact path='/courses' component={CourseDashboard} />
                 <PrivateRoute path='/courses/:id' component={CourseDetails} />
-                <PrivateRoute key={location.key} path={['/createActivity', '/manage/:id']} component={CourseForm} />
+                <PrivateRoute key={location.key} path={['/createCourse', '/manage/:id']} component={CourseForm} />
                 <PrivateRoute path='/errors' component={TestErrors} />
                 <Route path='/server-error' component={ServerError} />
                 <Route path='/account/registerSuccess' component={RegisterSuccess} />

@@ -128,8 +128,8 @@ export default class CourseStore {
 
     createCourse = async (course: CourseFormValues) => {
         try {
-            await agent.Courses.create(course);
-            const newCourse = new Course(course);
+            const createdCourse = await agent.Courses.create(course);
+            const newCourse = new Course(createdCourse);
             this.setCourse(newCourse);
             runInAction(() => {
                 this.selectedCourse = newCourse;

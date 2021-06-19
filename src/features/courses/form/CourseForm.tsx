@@ -8,12 +8,12 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
-import { CourseFormValues } from '../../../app/models/course';
+import { Course, CourseFormValues } from '../../../app/models/course';
 
 export default observer(function CourseForm() {
     const history = useHistory();
     const { courseStore } = useStore();
-    const { createCourse, updateCourse, loadCourse, loadingInitial } = courseStore;
+    const { createCourse, updateCourse, loadCourse, loadingInitial, selectedCourse } = courseStore;
     const { id } = useParams<{ id: string }>();
 
     const [course, setCourse] = useState<CourseFormValues>(new CourseFormValues());
@@ -32,7 +32,7 @@ export default observer(function CourseForm() {
             let newCourse = {
                 ...course
             };
-            createCourse(newCourse).then(() => history.push(`/courses/${newCourse.id}`))
+            createCourse(newCourse).then(() => history.push(`/courses`))
         } else {
             updateCourse(course).then(() => history.push(`/courses/${course.id}`))
         }

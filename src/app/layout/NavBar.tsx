@@ -17,12 +17,14 @@ export default observer(function NavBar() {
                     <>
                         <Menu.Item as={NavLink} to='/courses' name='Courses' />
                         <Menu.Item as={NavLink} to='/errors' name='Errors' />
-                        <Menu.Item>
-                            <Button as={NavLink} to='/createCourse' positive content='Create Course' />
-                        </Menu.Item>
+                        {user && user.role === 'admin' &&
+                            <Menu.Item>
+                                <Button as={NavLink} to='/createCourse' positive content='Create Course' />
+                            </Menu.Item>
+                        }
                         <Menu.Item position='right'>
                             <Image src={user?.image || '/assets/user.png'} avatar spaced='right' />
-                            <Dropdown pointing='top left' text={user?.displayName}>
+                            <Dropdown pointing='top left' text={user?.name}>
                                 <Dropdown.Menu>
                                     <Dropdown.Item onClick={logout} text='Logout' icon='power' />
                                 </Dropdown.Menu>

@@ -15,7 +15,7 @@ export default function CourseListItem({ course }: Props) {
             <Segment>
                 <Item.Group>
                     <Item>
-                        <Item.Image style={{ marginBottom: 3 }} size='tiny' circular src={'assets/categoryImages/film.jpg'} />
+                        <Item.Image style={{ marginBottom: 3 }} size='tiny' circular src={'/assets/categoryImages/film.jpg'} />
                         <Item.Content>
                             <Item.Header as={Link} to={`/courses/${course.id}`}>
                                 {course.title}

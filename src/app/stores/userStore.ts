@@ -15,9 +15,6 @@ export default class UserStore {
     get isLoggedIn() {
         return !!this.user;
     }
-    get currentRole() {
-        return !!this.user?.role;
-    }
 
     login = async (creds: UserFormValues) => {
         try {
@@ -65,7 +62,7 @@ export default class UserStore {
     }
 
     setDisplayName = (name: string) => {
-        if (this.user) this.user.displayName = name;
+        if (this.user) this.user.name = name;
     }
 
     refreshToken = async () => {
