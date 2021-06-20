@@ -17,6 +17,12 @@ import ConfirmEmail from '../../features/users/ConfirmEmail';
 import CourseDashboard from '../../features/courses/dashboard/CourseDashboard';
 import CourseDetails from '../../features/courses/details/CourseDetails';
 import CourseForm from '../../features/courses/form/CourseForm';
+import LessonDashboard from '../../features/lessons/dashboard/LessonDashboard';
+import LessonForm from '../../features/lessons/form/LessonForm';
+import LessonDetails from '../../features/lessons/details/LessonDetails';
+import QuestionDashboard from '../../features/questions/dashboard/QuestionDashboard';
+import QuestionDetails from '../../features/questions/details/QuestionDetails';
+import QuestionForm from '../../features/questions/form/QuestionForm';
 
 function App() {
   const location = useLocation();
@@ -46,7 +52,13 @@ function App() {
               <Switch>
                 <PrivateRoute exact path='/courses' component={CourseDashboard} />
                 <PrivateRoute path='/courses/:id' component={CourseDetails} />
-                <PrivateRoute key={location.key} path={['/createCourse', '/manage/:id']} component={CourseForm} />
+                <PrivateRoute key={location.key} path={['/createCourse', '/manage/:id']} role={'admin'} component={CourseForm} />
+                <PrivateRoute path='/courseLessons/:courseId' component={LessonDashboard} />
+                <PrivateRoute path='/courseLesson/:courseId/lessonDetail/:id' component={LessonDetails} />
+                <PrivateRoute key={location.key} path={['/createLesson', '/manage/:id']} role={'admin'} component={LessonForm} />
+                <PrivateRoute path='/lessonQuestions/:lessonId' component={QuestionDashboard} />
+                <PrivateRoute path='/lessonQuestion/:lessonId/questionDetail/:id' component={QuestionDetails} />
+                <PrivateRoute key={location.key} path={['/createQuestion', '/manage/:id']} role={'admin'} component={QuestionForm} />
                 <PrivateRoute path='/errors' component={TestErrors} />
                 <Route path='/server-error' component={ServerError} />
                 <Route path='/account/registerSuccess' component={RegisterSuccess} />

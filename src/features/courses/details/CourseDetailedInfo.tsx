@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react'
-import { Segment, Grid, Icon } from 'semantic-ui-react'
+import { Segment, Grid, Icon, Button } from 'semantic-ui-react'
 import { Course } from "../../../app/models/course";
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 interface Props {
     course: Course
@@ -30,6 +31,22 @@ export default observer(function CourseDetailedInfo({ course }: Props) {
                         <span>
                             {format(new Date(course.created_at!), 'dd MMM yyyy h:mm aa')}
                         </span>
+                    </Grid.Column>
+                </Grid>
+            </Segment>
+            <Segment attached>
+                <Grid verticalAlign='middle'>
+                    <Grid.Column width={1}>
+                        <Icon name='leanpub' size='large' color='teal' />
+                    </Grid.Column>
+                    <Grid.Column width={15}>
+                        <Button
+                            as={Link}
+                            to={`/courseLessons/${course.id}`}
+                            color='teal'
+                            floated='right'
+                            content='Go to course Lessons'
+                        />
                     </Grid.Column>
                 </Grid>
             </Segment>

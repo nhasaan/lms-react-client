@@ -1,8 +1,11 @@
 import axios, { AxiosError, AxiosResponse } from 'axios';
 import { toast } from 'react-toastify';
 import { history } from '../..';
+import { Answer, AnswerFormValues } from '../models/answer';
 import { Course, CourseFormValues } from '../models/course';
+import { Lesson, LessonFormValues } from '../models/lesson';
 import { PaginatedResult } from '../models/pagination';
+import { Question, QuestionFormValues } from '../models/question';
 import { User, UserFormValues } from '../models/user';
 import { store } from '../stores/store';
 
@@ -82,6 +85,36 @@ const Courses = {
     delete: (id: string) => requests.del<void>(`/courses/${id}`)
 }
 
+const Lessons = {
+    list: (courseId: string, params: URLSearchParams) =>
+        axios.get<PaginatedResult<Lesson[]>>(`/courses/${courseId}/lessons`, { params })
+            .then(responseBody),
+    details: (courseId: string, id: string) => requests.get<Lesson>(`/courses/${courseId}/lessons/${id}`),
+    create: (lesson: LessonFormValues) => requests.post<Lesson>('/lessons', lesson),
+    update: (lesson: LessonFormValues) => requests.put<void>(`/lessons/${lesson.id}`, lesson),
+    delete: (id: string) => requests.del<void>(`/lessons/${id}`)
+}
+
+const Questions = {
+    list: (lessonId: string, params: URLSearchParams) =>
+        axios.get<PaginatedResult<Question[]>>(`/lessons/${lessonId}/questions`, { params })
+            .then(responseBody),
+    details: (lessonId: string, id: string) => requests.get<Question>(`/lessons/${lessonId}/questions/${id}`),
+    create: (question: QuestionFormValues) => requests.post<Question>('/questions', question),
+    update: (question: QuestionFormValues) => requests.put<void>(`/questions/${question.id}`, question),
+    delete: (id: string) => requests.del<void>(`/questions/${id}`)
+}
+
+const Answers = {
+    list: (questioId: string, params: URLSearchParams) =>
+        axios.get<PaginatedResult<Answer[]>>(`/questions/${questioId}/answers`, { params })
+            .then(responseBody),
+    details: (questioId: string, id: string) => requests.get<Answer>(`/questions/${questioId}/answers/${id}`),
+    create: (questionId: string, answer: AnswerFormValues) => requests.post<Answer>(`/questions/${questionId}/answers`, answer),
+    update: (answer: AnswerFormValues) => requests.put<void>(`/answers/${answer.id}`, answer),
+    delete: (id: string) => requests.del<void>(`/answers/${id}`)
+}
+
 const Account = {
     current: () => requests.post<User>('/auth/me', {}),
     login: (user: UserFormValues) => requests.post<User>('/auth/login', user),
@@ -95,6 +128,9 @@ const Account = {
 
 const agent = {
     Courses,
+    Lessons,
+    Questions,
+    Answers,
     Account
 }
 

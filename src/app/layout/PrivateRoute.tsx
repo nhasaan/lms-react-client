@@ -10,7 +10,7 @@ export default function PrivateRoute({ component: Component, role, ...rest }: Pr
     const { userStore: { isLoggedIn, user } } = useStore();
     if (role && role !== user?.role) {
         // role not authorised so redirect to home page
-        return <Redirect to={{ pathname: '/questions' }} />
+        return <Redirect to={{ pathname: '/courses' }} />
     }
     return (
         <Route
