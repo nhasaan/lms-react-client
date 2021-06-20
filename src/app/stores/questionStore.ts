@@ -132,9 +132,9 @@ export default class QuestionStore {
         this.loadingInitial = state;
     }
 
-    createQuestion = async (question: QuestionFormValues) => {
+    createQuestion = async (lessonId: string, question: QuestionFormValues) => {
         try {
-            const createdQuestion = await agent.Questions.create(question);
+            const createdQuestion = await agent.Questions.create(lessonId, question);
             const newQuestion = new Question(createdQuestion);
             this.setQuestion(newQuestion);
             runInAction(() => {

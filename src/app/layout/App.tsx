@@ -53,12 +53,12 @@ function App() {
                 <PrivateRoute exact path='/courses' component={CourseDashboard} />
                 <PrivateRoute path='/courses/:id' component={CourseDetails} />
                 <PrivateRoute key={location.key} path={['/createCourse', '/manage/:id']} role={'admin'} component={CourseForm} />
-                <PrivateRoute path='/courseLessons/:courseId' component={LessonDashboard} />
+                <PrivateRoute exact path='/courseLessons/:courseId' component={LessonDashboard} />
                 <PrivateRoute path='/courseLesson/:courseId/lessonDetail/:id' component={LessonDetails} />
-                <PrivateRoute key={location.key} path={['/createLesson', '/manage/:id']} role={'admin'} component={LessonForm} />
-                <PrivateRoute path='/lessonQuestions/:lessonId' component={QuestionDashboard} />
+                <PrivateRoute key={location.key} path={['/createLesson/:courseId', '/manage/:id']} role={'admin'} component={LessonForm} />
+                <PrivateRoute exact path='/lessonQuestions/:lessonId' component={QuestionDashboard} />
                 <PrivateRoute path='/lessonQuestion/:lessonId/questionDetail/:id' component={QuestionDetails} />
-                <PrivateRoute key={location.key} path={['/createQuestion', '/manage/:id']} role={'admin'} component={QuestionForm} />
+                <PrivateRoute key={location.key} path={['/createQuestion/:lessonId', '/manage/:id']} role={'admin'} component={QuestionForm} />
                 <PrivateRoute path='/errors' component={TestErrors} />
                 <Route path='/server-error' component={ServerError} />
                 <Route path='/account/registerSuccess' component={RegisterSuccess} />

@@ -1,6 +1,5 @@
 import { makeAutoObservable, reaction, runInAction } from "mobx";
 import agent from "../api/agent";
-import { Course } from "../models/course";
 import { Lesson, LessonFormValues } from "../models/lesson";
 import { Pagination, PagingParams } from "../models/pagination";
 
@@ -133,9 +132,9 @@ export default class LessonStore {
         this.loadingInitial = state;
     }
 
-    createLesson = async (lesson: LessonFormValues) => {
+    createLesson = async (courseId: string, lesson: LessonFormValues) => {
         try {
-            const createdLesson = await agent.Lessons.create(lesson);
+            const createdLesson = await agent.Lessons.create(courseId, lesson);
             const newLesson = new Lesson(createdLesson);
             this.setLesson(newLesson);
             runInAction(() => {

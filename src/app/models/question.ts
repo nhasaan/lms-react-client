@@ -5,7 +5,7 @@ export interface Question {
   b: string;
   c: string;
   d: string;
-  correct?: string;
+  correct: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -23,7 +23,7 @@ export class QuestionFormValues {
   b: string = '';
   c: string = '';
   d: string = '';
-  correct?: string;
+  correct: string = '';
   created_at?: Date;
   updated_at?: Date;
 

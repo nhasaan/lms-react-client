@@ -90,7 +90,7 @@ const Lessons = {
         axios.get<PaginatedResult<Lesson[]>>(`/courses/${courseId}/lessons`, { params })
             .then(responseBody),
     details: (courseId: string, id: string) => requests.get<Lesson>(`/courses/${courseId}/lessons/${id}`),
-    create: (lesson: LessonFormValues) => requests.post<Lesson>('/lessons', lesson),
+    create: (courseId: string, lesson: LessonFormValues) => requests.post<Lesson>(`/courses/${courseId}/lessons`, lesson),
     update: (lesson: LessonFormValues) => requests.put<void>(`/lessons/${lesson.id}`, lesson),
     delete: (id: string) => requests.del<void>(`/lessons/${id}`)
 }
@@ -100,7 +100,7 @@ const Questions = {
         axios.get<PaginatedResult<Question[]>>(`/lessons/${lessonId}/questions`, { params })
             .then(responseBody),
     details: (lessonId: string, id: string) => requests.get<Question>(`/lessons/${lessonId}/questions/${id}`),
-    create: (question: QuestionFormValues) => requests.post<Question>('/questions', question),
+    create: (lessonId: string, question: QuestionFormValues) => requests.post<Question>(`/lessons/${lessonId}/questions`, question),
     update: (question: QuestionFormValues) => requests.put<void>(`/questions/${question.id}`, question),
     delete: (id: string) => requests.del<void>(`/questions/${id}`)
 }

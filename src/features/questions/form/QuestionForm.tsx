@@ -7,7 +7,6 @@ import { useStore } from '../../../app/stores/store';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
-import MyTextArea from '../../../app/common/form/MyTextArea';
 import { QuestionFormValues } from '../../../app/models/question';
 
 export default observer(function QuestionForm() {
@@ -21,7 +20,11 @@ export default observer(function QuestionForm() {
 
     const validationSchema = Yup.object({
         title: Yup.string().required('The question title is required'),
-        description: Yup.string().required('The question description is required')
+        a: Yup.string().required('The question option A is required'),
+        b: Yup.string().required('The question option B is required'),
+        c: Yup.string().required('The question option C is required'),
+        d: Yup.string().required('The question option D is required'),
+        correct: Yup.string().required('The correct option is required').length(1, 'Max char is one!').oneOf(['a', 'b', 'c', 'd'], 'Any of the a, b, c, d'),
     })
 
     useEffect(() => {
@@ -33,7 +36,7 @@ export default observer(function QuestionForm() {
             let newQuestion = {
                 ...question
             };
-            createQuestion(newQuestion).then(() => history.push(`/questions`))
+            createQuestion(lessonId, newQuestion).then(() => history.push(`/lessonQuestions/${lessonId}`))
         } else {
             updateQuestion(question).then(() => history.push(`/questions/${question.id}`))
         }
@@ -51,8 +54,12 @@ export default observer(function QuestionForm() {
                 onSubmit={values => handleFormSubmit(values)}>
                 {({ handleSubmit, isValid, isSubmitting, dirty }) => (
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
-                        <MyTextInput name='title' placeholder='Title' />
-                        <MyTextArea rows={3} placeholder='Description' name='description' />
+                        <MyTextInput name='title' placeholder='Question title' />
+                        <MyTextInput name='a' placeholder='Option A' />
+                        <MyTextInput name='b' placeholder='Option B' />
+                        <MyTextInput name='c' placeholder='Option C' />
+                        <MyTextInput name='d' placeholder='Option D' />
+                        <MyTextInput name='correct' placeholder='Which one is correct? type a or. b or. c or. d' />
                         <Button
                             disabled={isSubmitting || !dirty || !isValid}
                             loading={isSubmitting} floated='right'

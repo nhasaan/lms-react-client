@@ -36,10 +36,14 @@ export default observer(function CourseDetailedInfo({ course }: Props) {
             </Segment>
             <Segment attached>
                 <Grid verticalAlign='middle'>
-                    <Grid.Column width={1}>
-                        <Icon name='leanpub' size='large' color='teal' />
-                    </Grid.Column>
-                    <Grid.Column width={15}>
+                    <Grid.Column width={16}>
+                        <Button
+                            as={Link}
+                            to={`/createLesson/${course.id}`}
+                            color='grey'
+                            floated='left'
+                            content='Create lesson'
+                        />
                         <Button
                             as={Link}
                             to={`/courseLessons/${course.id}`}

@@ -8,12 +8,12 @@ import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import MyTextInput from '../../../app/common/form/MyTextInput';
 import MyTextArea from '../../../app/common/form/MyTextArea';
-import { Lesson, LessonFormValues } from '../../../app/models/lesson';
+import { LessonFormValues } from '../../../app/models/lesson';
 
 export default observer(function LessonForm() {
     const history = useHistory();
     const { lessonStore } = useStore();
-    const { createLesson, updateLesson, loadLesson, loadingInitial, selectedLesson } = lessonStore;
+    const { createLesson, updateLesson, loadLesson, loadingInitial } = lessonStore;
     const { courseId } = useParams<{ courseId: string }>();
     const { id } = useParams<{ id: string }>();
 
@@ -33,7 +33,7 @@ export default observer(function LessonForm() {
             let newLesson = {
                 ...lesson
             };
-            createLesson(newLesson).then(() => history.push(`/lessons`))
+            createLesson(courseId, newLesson).then(() => history.push(`/courseLessons/${courseId}`))
         } else {
             updateLesson(lesson).then(() => history.push(`/lessons/${lesson.id}`))
         }

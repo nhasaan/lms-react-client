@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Button, Container, Menu, Image, Dropdown } from 'semantic-ui-react';
+import { Container, Menu, Image, Dropdown } from 'semantic-ui-react';
 import { useStore } from '../stores/store';
 
 export default observer(function NavBar() {
@@ -15,12 +15,14 @@ export default observer(function NavBar() {
                 </Menu.Item>
                 {isLoggedIn &&
                     <>
-                        <Menu.Item as={NavLink} to='/courses' name='Courses' />
-                        <Menu.Item as={NavLink} to='/errors' name='Errors' />
+                        <Menu.Item as={NavLink} to='/courses' name='All Courses' />
+                        {/* <Menu.Item as={NavLink} to='/errors' name='Errors' /> */}
                         {user && user.role === 'admin' &&
-                            <Menu.Item>
-                                <Button as={NavLink} to='/createCourse' positive content='Create Course' />
-                            </Menu.Item>
+                            <>
+                                <Menu.Item as={NavLink} to='/createCourse' name='Create Course' />
+                                {/* <Menu.Item as={NavLink} to='/createLesson' name='Create Lesson' />
+                                <Menu.Item as={NavLink} to='/createQuestion' name='Create Question' /> */}
+                            </>
                         }
                         <Menu.Item position='right'>
                             <Image src={user?.image || '/assets/user.png'} avatar spaced='right' />
