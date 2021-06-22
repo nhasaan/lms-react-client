@@ -14,20 +14,31 @@ export default observer(function LessonList() {
     return (
         <>
             <Fragment>
-                <Header sub color='teal'>Lesson List</Header>
-                {lessonsByDate.map((lesson: Lesson) => (
-                    <LessonListItem key={lesson.id} lesson={lesson} />
-                ))}
+                <Grid>
+                    <Grid.Column width={8} >
+                        <Header color='teal'>Lesson List</Header>
+                    </Grid.Column>
+                    <Grid.Column width={8} >
+                        <Button
+                            as={Link}
+                            to={`/createLesson/${courseId}`}
+                            color='teal'
+                            floated='right'
+                            content='Create lesson'
+                        />
+                    </Grid.Column>
+                </Grid>
+                <Grid>
+                    <Grid.Column width={16} >
+                        {lessonsByDate.map((lesson: Lesson) => (
+                            <LessonListItem key={lesson.id} lesson={lesson} />
+                        ))}
+                    </Grid.Column>
+                </Grid>
                 {lessonsByDate && lessonsByDate.length === 0 &&
                     <Grid style={{ marginTop: '7em' }}>
                         <Grid.Column width={16} >
                             <Header sub style={{ marginBottom: '7em' }}>No Lessons found!</Header>
-                            <Button
-                                as={Link}
-                                to={`/createLesson/${courseId}`}
-                                color='teal'
-                                content='Create lesson'
-                            />
                         </Grid.Column>
                     </Grid>
                 }

@@ -24,15 +24,6 @@ export default function QuestionListItem({ question }: Props) {
                     </Item>
                 </Item.Group>
             </Segment>
-            {/* <Segment clearing>
-                <Button
-                    as={Link}
-                    to={`/lessonQuestion/${lessonId}/questionDetail/${question.id}`}
-                    color='teal'
-                    floated='right'
-                    content='View'
-                />
-            </Segment> */}
         </>
     )
 }

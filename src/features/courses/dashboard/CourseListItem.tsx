@@ -33,7 +33,7 @@ export default function CourseListItem({ course }: Props) {
                 <span>{course.description}</span>
                 <Button
                     as={Link}
-                    to={`/courses/${course.id}`}
+                    to={`/courseDetail/${course.id}`}
                     color='teal'
                     floated='right'
                     content='View'

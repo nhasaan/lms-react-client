@@ -52,7 +52,7 @@ export default observer(function QuestionList() {
                         <Header color='teal'>Question List</Header>
                     </Grid.Column>
                     <Grid.Column width={8} >
-                        {questionsByDate.length !== 10 &&
+                        {(user && user.role === 'admin' && questionsByDate.length !== 10) &&
                             <Button
                                 as={Link}
                                 to={`/createQuestion/${lessonId}`}
@@ -68,84 +68,105 @@ export default observer(function QuestionList() {
                             {({ values, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
                                 <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                                     {questionsByDate.map((question: Question, index) => (
-                                        <Segment.Group key={index}>
+                                        <Segment.Group key={question.id}>
                                             <QuestionListItem question={question} />
-                                            <Segment attached>
-                                                <Radio
-                                                    label={question.a}
-                                                    id={question.a + index}
-                                                    name={`answers[${index}].selected`}
-                                                    value='a'
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    checked={
-                                                        values.answers && values.answers[index]
-                                                            ? values.answers[index].selected === 'a'
-                                                            : false
-                                                    } />
-                                            </Segment>
-                                            <Segment attached>
-                                                <Radio
-                                                    label={question.b}
-                                                    id={question.b + index}
-                                                    name={`answers[${index}].selected`}
-                                                    value='b'
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    checked={
-                                                        values.answers && values.answers[index]
-                                                            ? values.answers[index].selected === 'b'
-                                                            : false
-                                                    } />
-                                            </Segment>
-                                            <Segment attached>
-                                                <Radio
-                                                    label={question.c}
-                                                    id={question.c + index}
-                                                    name={`answers[${index}].selected`}
-                                                    value='c'
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    checked={
-                                                        values.answers && values.answers[index]
-                                                            ? values.answers[index].selected === 'c'
-                                                            : false
-                                                    } />
-                                            </Segment>
-                                            <Segment attached>
-                                                <Radio
-                                                    label={question.d}
-                                                    id={question.d + index}
-                                                    name={`answers[${index}].selected`}
-                                                    value='d'
-                                                    onChange={handleChange}
-                                                    onBlur={handleBlur}
-                                                    checked={
-                                                        values.answers && values.answers[index]
-                                                            ? values.answers[index].selected === 'd'
-                                                            : false
-                                                    } />
-                                            </Segment>
-                                            {
-                                                values.answers[index].is_correct = (values.answers[index].selected === questionsByDate[index].correct)
+                                            {user && user.role === 'user' ? (
+                                                <>
+                                                    <Segment attached>
+                                                        <Radio
+                                                            label={question.a}
+                                                            id={question.a + index}
+                                                            name={`answers[${index}].selected`}
+                                                            value='a'
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                            checked={
+                                                                values.answers && values.answers[index]
+                                                                    ? values.answers[index].selected === 'a'
+                                                                    : false
+                                                            } />
+                                                    </Segment>
+                                                    <Segment attached>
+                                                        <Radio
+                                                            label={question.b}
+                                                            id={question.b + index}
+                                                            name={`answers[${index}].selected`}
+                                                            value='b'
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                            checked={
+                                                                values.answers && values.answers[index]
+                                                                    ? values.answers[index].selected === 'b'
+                                                                    : false
+                                                            } />
+                                                    </Segment>
+                                                    <Segment attached>
+                                                        <Radio
+                                                            label={question.c}
+                                                            id={question.c + index}
+                                                            name={`answers[${index}].selected`}
+                                                            value='c'
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                            checked={
+                                                                values.answers && values.answers[index]
+                                                                    ? values.answers[index].selected === 'c'
+                                                                    : false
+                                                            } />
+                                                    </Segment>
+                                                    <Segment attached>
+                                                        <Radio
+                                                            label={question.d}
+                                                            id={question.d + index}
+                                                            name={`answers[${index}].selected`}
+                                                            value='d'
+                                                            onChange={handleChange}
+                                                            onBlur={handleBlur}
+                                                            checked={
+                                                                values.answers && values.answers[index]
+                                                                    ? values.answers[index].selected === 'd'
+                                                                    : false
+                                                            } />
+                                                    </Segment>
+                                                    {
+                                                        values.answers[index].is_correct = (values.answers[index].selected === questionsByDate[index].correct)
+                                                    }
+
+                                                </>) : (
+                                                <>
+                                                </>
+                                            )
                                             }
                                         </Segment.Group>
                                     ))}
-
-                                    <Segment clearing>
-                                        <Button
-                                            disabled={loading}
-                                            loading={loading} floated='right'
-                                            positive type='submit' content='Save answer' />
-                                    </Segment>
+                                    <Segment.Group>
+                                        {user && user.role === 'user' ? (
+                                            <>
+                                                <Segment clearing>
+                                                    <Header content={'Results: ' + results + ' out of ' + questionsByDate.length + '!'} floated='left' color='teal' />
+                                                    <Button
+                                                        disabled={loading}
+                                                        loading={loading} floated='right'
+                                                        positive type='submit' content='Save answer' />
+                                                </Segment>
+                                            </>) : (
+                                            <>
+                                                <Segment clearing>
+                                                    <Button
+                                                        as={Link}
+                                                        to={`/courses/`}
+                                                        color='grey'
+                                                        floated='left'
+                                                        content='All courses'
+                                                    />
+                                                </Segment>
+                                            </>
+                                        )
+                                        }
+                                    </Segment.Group>
                                 </Form>
                             )}
                         </Formik>
-                    </Grid.Column>
-                    <Grid.Column width={16}>
-                        <Segment clearing>
-                            <Header content={'Results: ' + results + ' out of ' + questionsByDate.length + '!'} color='teal' />
-                        </Segment>
                     </Grid.Column>
                 </Grid>
                 {questionsByDate &&

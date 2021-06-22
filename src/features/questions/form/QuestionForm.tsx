@@ -64,7 +64,7 @@ export default observer(function QuestionForm() {
                             disabled={isSubmitting || !dirty || !isValid}
                             loading={isSubmitting} floated='right'
                             positive type='submit' content='Submit' />
-                        <Button as={Link} to='/questions' floated='right' type='button' content='Cancel' />
+                        <Button as={Link} to={`/lessonQuestions/${lessonId}`} floated='left' type='button' content='Cancel' />
                     </Form>
                 )}
             </Formik>

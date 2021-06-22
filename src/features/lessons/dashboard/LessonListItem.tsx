@@ -31,13 +31,22 @@ export default function LessonListItem({ lesson }: Props) {
                 </span>
             </Segment>
             <Segment clearing>
-                <span>{lesson.description}</span>
+                <p>{lesson.description}</p>
+            </Segment>
+            <Segment clearing>
                 <Button
                     as={Link}
-                    to={`/courseLesson/${courseId}/lessonDetail/${lesson.id}`}
+                    to={`/courseDetail/${courseId}`}
+                    color='grey'
+                    floated='left'
+                    content='Back'
+                />
+                <Button
+                    as={Link}
+                    to={`/lessonQuestions/${lesson.id}`}
                     color='teal'
                     floated='right'
-                    content='View'
+                    content='Go to Questions'
                 />
             </Segment>
         </Segment.Group>

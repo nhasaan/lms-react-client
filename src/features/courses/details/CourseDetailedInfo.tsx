@@ -39,10 +39,10 @@ export default observer(function CourseDetailedInfo({ course }: Props) {
                     <Grid.Column width={16}>
                         <Button
                             as={Link}
-                            to={`/createLesson/${course.id}`}
+                            to={`/courses`}
                             color='grey'
                             floated='left'
-                            content='Create lesson'
+                            content='Back'
                         />
                         <Button
                             as={Link}

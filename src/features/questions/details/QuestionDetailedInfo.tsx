@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react'
+import React from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react'
 import { Question } from "../../../app/models/question";
 import { format } from 'date-fns';
@@ -10,7 +10,6 @@ interface Props {
 }
 
 export default observer(function QuestionDetailedInfo({ question }: Props) {
-    const [selectedQuestion, setSelectedQuestion] = useState<Question>()
     return (
         <Segment.Group>
             <Segment attached='top'>
@@ -47,12 +46,6 @@ export default observer(function QuestionDetailedInfo({ question }: Props) {
                             color='grey'
                             floated='left'
                             content='Back'
-                        />
-                        <Button
-                            onClick={() => setSelectedQuestion(question)}
-                            color='grey'
-                            floated='right'
-                            content='Submit a Answer'
                         />
                     </Grid.Column>
                 </Grid>

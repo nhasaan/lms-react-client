@@ -51,7 +51,7 @@ function App() {
             <Container style={{ marginTop: '7em' }}>
               <Switch>
                 <PrivateRoute exact path='/courses' component={CourseDashboard} />
-                <PrivateRoute path='/courses/:id' component={CourseDetails} />
+                <PrivateRoute path='/courseDetail/:id' component={CourseDetails} />
                 <PrivateRoute key={location.key} path={['/createCourse', '/manage/:id']} role={'admin'} component={CourseForm} />
                 <PrivateRoute exact path='/courseLessons/:courseId' component={LessonDashboard} />
                 <PrivateRoute path='/courseLesson/:courseId/lessonDetail/:id' component={LessonDetails} />
