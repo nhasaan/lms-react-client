@@ -1,15 +1,18 @@
 import { observer } from 'mobx-react-lite';
-import React from 'react'
+import React, { useState } from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react'
 import { Question } from "../../../app/models/question";
 import { format } from 'date-fns';
+import AnswerForm from '../form/AnswerForm';
 import { Link } from 'react-router-dom';
+import { history } from '../../..';
 
 interface Props {
     question: Question
 }
 
 export default observer(function QuestionDetailedInfo({ question }: Props) {
+    const [selectedQuestion, setSelectedQuestion] = useState<Question>()
     return (
         <Segment.Group>
             <Segment attached='top'>
@@ -39,20 +42,29 @@ export default observer(function QuestionDetailedInfo({ question }: Props) {
             </Segment>
             <Segment attached>
                 <Grid verticalAlign='middle'>
-                    <Grid.Column width={1}>
-                        <Icon name='leanpub' size='large' color='teal' />
-                    </Grid.Column>
                     <Grid.Column width={15}>
                         <Button
                             as={Link}
-                            to={`/answerQuestion/${question.id}`}
-                            color='teal'
+                            to={`/lessonQuestions/${question.lesson_id}`}
+                            color='grey'
+                            floated='left'
+                            content='Back'
+                        />
+                        <Button
+                            onClick={() => setSelectedQuestion(question)}
+                            color='grey'
                             floated='right'
-                            content='Answer this Question'
+                            content='Submit a Answer'
                         />
                     </Grid.Column>
                 </Grid>
             </Segment>
+            <Segment attached>
+                {selectedQuestion && selectedQuestion.id &&
+                    <AnswerForm key={selectedQuestion.id} question={selectedQuestion} />
+                }
+            </Segment>
+
         </Segment.Group>
     )
 })

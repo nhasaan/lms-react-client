@@ -1,6 +1,6 @@
 import React from 'react';
-import { Link, } from 'react-router-dom';
-import { Icon, Item, Segment } from 'semantic-ui-react';
+import { Link, useParams, } from 'react-router-dom';
+import { Button, Icon, Item, Segment } from 'semantic-ui-react';
 import { Question } from '../../../app/models/question';
 import { format } from 'date-fns';
 
@@ -9,9 +9,9 @@ interface Props {
 }
 
 export default function QuestionListItem({ question }: Props) {
-
+    const { lessonId } = useParams<{ lessonId: string }>();
     return (
-        <Segment.Group>
+        <>
             <Segment>
                 <Item.Group>
                     <Item>
@@ -24,11 +24,15 @@ export default function QuestionListItem({ question }: Props) {
                     </Item>
                 </Item.Group>
             </Segment>
-            <Segment>
-                <span>
-                    <Icon name='clock' /> {format(new Date(question.created_at!), 'dd MMM yyyy h:mm aa')}
-                </span>
-            </Segment>
-        </Segment.Group>
+            {/* <Segment clearing>
+                <Button
+                    as={Link}
+                    to={`/lessonQuestion/${lessonId}/questionDetail/${question.id}`}
+                    color='teal'
+                    floated='right'
+                    content='View'
+                />
+            </Segment> */}
+        </>
     )
 }

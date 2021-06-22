@@ -17,43 +17,31 @@ export default observer(function AnswerForm({ question }: Props) {
     const history = useHistory();
     const { answerStore } = useStore();
     const { createAnswer, loadAnswer, updateAnswer, loadingInitial } = answerStore;
+    // const { lessonId } = useParams<{ lessonId: string }>();
     const { questionId } = useParams<{ questionId: string }>();
     const { id } = useParams<{ id: string }>();
 
     const [answer, setAnswer] = useState<AnswerFormValues>(new AnswerFormValues());
+    const [selected, setSelected] = useState<string>('');
 
     const validationSchema = Yup.object({
         selected: Yup.string().required('Selecting an answer is required!')
     })
-
-    useEffect(() => {
-        if (id) loadAnswer(questionId, id).then(question => setAnswer(new AnswerFormValues(question)))
-    }, [questionId, id, loadAnswer]);
 
     function handleFormSubmit(answer: AnswerFormValues) {
         if (!answer.id) {
             let newAnswer = {
                 ...answer
             };
-            createAnswer(questionId, newAnswer).then(() => console.log(newAnswer))
+            createAnswer(questionId, newAnswer).then(() => history.push(`/lessonQuestions/${question.lesson_id}`))
         } else {
             updateAnswer(answer).then(() => history.push(`/answers/${answer.id}`))
         }
     }
 
-    const handleChange = (e: any) => {
-        console.log(e)
-        console.log(answer)
-    }
-
     if (loadingInitial) return <LoadingComponent content='Loading answer...' />
 
     return (
-
-        //         _${question.id}
-        // _${question.id}
-        // _${question.id}
-        // _${question.id}
         <>
             <Header content='Answer Options' sub color='teal' />
             <Formik
@@ -61,38 +49,35 @@ export default observer(function AnswerForm({ question }: Props) {
                 enableReinitialize
                 initialValues={answer}
                 onSubmit={values => handleFormSubmit(values)}>
-                {({ handleSubmit, isValid, isSubmitting, dirty }) => (
+                {({ handleSubmit, values, isValid, isSubmitting, dirty }) => (
                     <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                         <Segment clearing>
                             <Radio
                                 label={question.a}
                                 name='selected'
                                 value='a'
-                                onChange={handleChange}
-                                checked={answer.selected === 'a'} />
+                                checked={values.selected === 'a'} />
                             <Radio
                                 label={question.b}
                                 name='selected'
                                 value='b'
-                                onChange={handleChange} />
+                                checked={values.selected === 'b'} />
                             <Radio
                                 label={question.c}
                                 name='selected'
                                 value='c'
-                                onChange={handleChange} />
+                                checked={values.selected === 'c'} />
                             <Radio
                                 label={question.d}
                                 name='selected'
                                 value='d'
-                                onChange={handleChange} />
+                                checked={values.selected === 'd'} />
                         </Segment>
                         <Segment clearing>
                             <Button
                                 disabled={isSubmitting || !dirty || !isValid}
                                 loading={isSubmitting} floated='right'
-                                positive type='submit' content='Submit answer' />
-                            Picked: {JSON.stringify(answer)}
-                            {/* <Button as={Link} to='/answers' floated='right' type='button' content='Cancel' /> */}
+                                positive type='submit' content='Save answer' />
                         </Segment>
                     </Form>
                 )}

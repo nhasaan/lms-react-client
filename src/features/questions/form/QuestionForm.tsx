@@ -46,7 +46,7 @@ export default observer(function QuestionForm() {
 
     return (
         <Segment clearing>
-            <Header content='Question Details' sub color='teal' />
+            <Header content='Answer Options' sub color='teal' />
             <Formik
                 validationSchema={validationSchema}
                 enableReinitialize

@@ -6,6 +6,7 @@ export interface Question {
   c: string;
   d: string;
   correct: string;
+  lesson_id?: string;
   created_at?: Date;
   updated_at?: Date;
 }
@@ -24,6 +25,7 @@ export class QuestionFormValues {
   c: string = '';
   d: string = '';
   correct: string = '';
+  lesson_id?: string = '';
   created_at?: Date;
   updated_at?: Date;
 
@@ -35,6 +37,7 @@ export class QuestionFormValues {
       this.b = question.b;
       this.c = question.c;
       this.d = question.d;
+      this.lesson_id = question.lesson_id;
       this.correct = question.correct;
       this.created_at = question.created_at;
       this.updated_at = question.updated_at;
