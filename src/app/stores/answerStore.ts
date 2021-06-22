@@ -132,20 +132,21 @@ export default class AnswerStore {
         this.loadingInitial = state;
     }
 
-    createAnswer = async (questionId: string, answer: AnswerFormValues) => {
+    createAnswers = async (data: any) => {
         try {
-            const createdAnswer = await agent.Answers.create(questionId, answer);
-            const newAnswer = new Answer(createdAnswer);
-            this.setAnswer(newAnswer);
-            runInAction(() => {
-                this.selectedAnswer = newAnswer;
-            })
+            const createdAnswers = await agent.Answers.submitAnswers(data);
+            console.log(createdAnswers)
+            // const newAnswer = new Answer(createdAnswer);
+            // this.setAnswer(newAnswer);
+            // runInAction(() => {
+            //     this.selectedAnswer = newAnswer;
+            // })
         } catch (error) {
             console.log(error);
         }
     }
 
-    updateAnswer = async (answer: AnswerFormValues) => {
+    updateAnswers = async (answer: AnswerFormValues) => {
         try {
             await agent.Answers.update(answer);
             runInAction(() => {

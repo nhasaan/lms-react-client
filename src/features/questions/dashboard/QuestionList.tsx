@@ -1,54 +1,46 @@
+import React, { Fragment, useState } from 'react';
 import { Formik } from 'formik';
 import { observer } from 'mobx-react-lite';
-import React, { Fragment, useState } from 'react';
-import { Link, useHistory, useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Button, Form, Grid, Header, Radio, Segment } from 'semantic-ui-react';
 import LoadingComponent from '../../../app/layout/LoadingComponent';
-import { AnswerFormValues } from '../../../app/models/answer';
 import { Question } from '../../../app/models/question';
 import { useStore } from '../../../app/stores/store';
 import QuestionListItem from './QuestionListItem';
-import * as Yup from 'yup';
 
 export default observer(function QuestionList() {
-    const { questionStore } = useStore();
+    const { answerStore, userStore, questionStore } = useStore();
     const { questionsByDate } = questionStore;
+    const { user } = userStore;
+    const { createAnswers, loadingInitial } = answerStore;
     const { lessonId } = useParams<{ lessonId: string }>();
+    const [results, setResults] = useState(0);
+    const [loading, setLoading] = useState(false)
 
-    const history = useHistory();
-    const { answerStore } = useStore();
-    const { createAnswer, loadAnswer, updateAnswer, loadingInitial } = answerStore;
-    // const { lessonId } = useParams<{ lessonId: string }>();
-    const { questionId } = useParams<{ questionId: string }>();
-    const { id } = useParams<{ id: string }>();
-
-    const [answer, setAnswer] = useState<AnswerFormValues>(new AnswerFormValues());
-    const [selected, setSelected] = useState<string>('');
-
-    const validationSchema = Yup.object({
-        selected: Yup.string().required('Selecting an answer is required!')
-    })
-
-    function handleFormSubmit() {
-        if (!answer.id) {
-            let newAnswer = {
-                ...answer
-            };
-            createAnswer(questionId, newAnswer).then(() => console.log('answer submited saved'))
-        } else {
-            updateAnswer(answer).then(() => history.push(`/answers/${answer.id}`))
-        }
+    function calcResult(answers: any) {
+        const corrects = answers.filter((answer: any) => answer.is_correct);
+        setResults(corrects.length)
     }
-    const userSelections = (length: number) => {
+
+    function handleFormSubmit(values: any) {
+        setLoading(true);
+        createAnswers(values.answers).then(() => {
+            console.log('answer submited saved')
+            calcResult(values.answers);
+            setLoading(false);
+        })
+    }
+    const userSelections = () => {
         const initialValues = [];
         for (let i = 0; i < questionsByDate.length; i++) {
-            initialValues.push({ question: i, answer: '' });
+            const answer = { question_id: questionsByDate[i].id, selected: '', is_correct: false, user_id: user?.id, lesson_id: questionsByDate[i].lesson_id }
+            initialValues.push(answer);
         }
 
         return initialValues;
     }
 
-    const userSelection = { answers: userSelections(questionsByDate.length) };
+    const userSelection = { answers: userSelections() };
 
     if (loadingInitial) return <LoadingComponent content='Loading answer...' />
 
@@ -73,7 +65,7 @@ export default observer(function QuestionList() {
                 <Grid>
                     <Grid.Column width={16} >
                         <Formik enableReinitialize={true} initialValues={userSelection} onSubmit={handleFormSubmit}>
-                            {({ values, handleBlur, handleChange, handleSubmit, isSubmitting, dirty }) => (
+                            {({ values, handleBlur, handleChange, handleSubmit, isSubmitting }) => (
                                 <Form className='ui form' onSubmit={handleSubmit} autoComplete='off'>
                                     {questionsByDate.map((question: Question, index) => (
                                         <Segment.Group key={index}>
@@ -82,13 +74,13 @@ export default observer(function QuestionList() {
                                                 <Radio
                                                     label={question.a}
                                                     id={question.a + index}
-                                                    name={`answers[${index}].answer`}
+                                                    name={`answers[${index}].selected`}
                                                     value='a'
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     checked={
                                                         values.answers && values.answers[index]
-                                                            ? values.answers[index].answer === 'a'
+                                                            ? values.answers[index].selected === 'a'
                                                             : false
                                                     } />
                                             </Segment>
@@ -96,13 +88,13 @@ export default observer(function QuestionList() {
                                                 <Radio
                                                     label={question.b}
                                                     id={question.b + index}
-                                                    name={`answers[${index}].answer`}
+                                                    name={`answers[${index}].selected`}
                                                     value='b'
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     checked={
                                                         values.answers && values.answers[index]
-                                                            ? values.answers[index].answer === 'b'
+                                                            ? values.answers[index].selected === 'b'
                                                             : false
                                                     } />
                                             </Segment>
@@ -110,13 +102,13 @@ export default observer(function QuestionList() {
                                                 <Radio
                                                     label={question.c}
                                                     id={question.c + index}
-                                                    name={`answers[${index}].answer`}
+                                                    name={`answers[${index}].selected`}
                                                     value='c'
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     checked={
                                                         values.answers && values.answers[index]
-                                                            ? values.answers[index].answer === 'c'
+                                                            ? values.answers[index].selected === 'c'
                                                             : false
                                                     } />
                                             </Segment>
@@ -124,29 +116,37 @@ export default observer(function QuestionList() {
                                                 <Radio
                                                     label={question.d}
                                                     id={question.d + index}
-                                                    name={`answers[${index}].answer`}
+                                                    name={`answers[${index}].selected`}
                                                     value='d'
                                                     onChange={handleChange}
                                                     onBlur={handleBlur}
                                                     checked={
                                                         values.answers && values.answers[index]
-                                                            ? values.answers[index].answer === 'd'
+                                                            ? values.answers[index].selected === 'd'
                                                             : false
                                                     } />
                                             </Segment>
+                                            {
+                                                values.answers[index].is_correct = (values.answers[index].selected === questionsByDate[index].correct)
+                                            }
                                         </Segment.Group>
                                     ))}
-                                    <pre>{JSON.stringify(values)}</pre>
-                                    <button
-                                        type="submit"
-                                        className="btn btn-primary"
-                                        disabled={isSubmitting}
-                                    >
-                                        Submit
-                                    </button>
+
+                                    <Segment clearing>
+                                        <Button
+                                            disabled={loading}
+                                            loading={loading} floated='right'
+                                            positive type='submit' content='Save answer' />
+                                    </Segment>
                                 </Form>
                             )}
-                        </Formik></Grid.Column>
+                        </Formik>
+                    </Grid.Column>
+                    <Grid.Column width={16}>
+                        <Segment clearing>
+                            <Header content={'Results: ' + results + ' out of ' + questionsByDate.length + '!'} color='teal' />
+                        </Segment>
+                    </Grid.Column>
                 </Grid>
                 {questionsByDate &&
                     <Grid style={{ marginTop: '7em' }}>

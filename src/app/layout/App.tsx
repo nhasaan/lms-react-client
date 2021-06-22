@@ -23,7 +23,6 @@ import LessonDetails from '../../features/lessons/details/LessonDetails';
 import QuestionDashboard from '../../features/questions/dashboard/QuestionDashboard';
 import QuestionDetails from '../../features/questions/details/QuestionDetails';
 import QuestionForm from '../../features/questions/form/QuestionForm';
-import AnswerForm from '../../features/questions/form/AnswerForm';
 
 function App() {
   const location = useLocation();
@@ -60,8 +59,6 @@ function App() {
                 <PrivateRoute exact path='/lessonQuestions/:lessonId' component={QuestionDashboard} />
                 <PrivateRoute path='/lessonQuestion/:lessonId/questionDetail/:id' component={QuestionDetails} />
                 <PrivateRoute key={location.key} path={['/createQuestion/:lessonId', '/manage/:id']} role={'admin'} component={QuestionForm} />
-                {/* <PrivateRoute key={location.key} path={'answerQuestion/:questionId/lesson/:lessonid'} component={AnswerForm} /> */}
-                <PrivateRoute path='/answerQuestion/:questionId/lesson/:lessonid' component={AnswerForm} />
                 <PrivateRoute path='/errors' component={TestErrors} />
                 <Route path='/server-error' component={ServerError} />
                 <Route path='/account/registerSuccess' component={RegisterSuccess} />

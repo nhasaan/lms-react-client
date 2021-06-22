@@ -111,6 +111,7 @@ const Answers = {
             .then(responseBody),
     details: (questioId: string, id: string) => requests.get<Answer>(`/questions/${questioId}/answers/${id}`),
     create: (questionId: string, answer: AnswerFormValues) => requests.post<Answer>(`/questions/${questionId}/answers`, answer),
+    submitAnswers: (data: any) => requests.post<Answer>(`/answers/submit_answers`, data),
     update: (answer: AnswerFormValues) => requests.put<void>(`/answers/${answer.id}`, answer),
     delete: (id: string) => requests.del<void>(`/answers/${id}`)
 }

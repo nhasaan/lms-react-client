@@ -3,9 +3,7 @@ import React, { useState } from 'react'
 import { Segment, Grid, Icon, Button } from 'semantic-ui-react'
 import { Question } from "../../../app/models/question";
 import { format } from 'date-fns';
-import AnswerForm from '../form/AnswerForm';
 import { Link } from 'react-router-dom';
-import { history } from '../../..';
 
 interface Props {
     question: Question
@@ -58,11 +56,6 @@ export default observer(function QuestionDetailedInfo({ question }: Props) {
                         />
                     </Grid.Column>
                 </Grid>
-            </Segment>
-            <Segment attached>
-                {selectedQuestion && selectedQuestion.id &&
-                    <AnswerForm key={selectedQuestion.id} question={selectedQuestion} />
-                }
             </Segment>
 
         </Segment.Group>
