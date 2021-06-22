@@ -1,15 +1,13 @@
 import React from 'react';
-import { Link, useParams, } from 'react-router-dom';
-import { Button, Icon, Item, Segment } from 'semantic-ui-react';
+import { Link, } from 'react-router-dom';
+import { Item, Segment } from 'semantic-ui-react';
 import { Question } from '../../../app/models/question';
-import { format } from 'date-fns';
 
 interface Props {
     question: Question
 }
 
 export default function QuestionListItem({ question }: Props) {
-    const { lessonId } = useParams<{ lessonId: string }>();
     return (
         <>
             <Segment>
