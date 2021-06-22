@@ -119,7 +119,7 @@ const Answers = {
 const Account = {
     current: () => requests.post<User>('/auth/me', {}),
     login: (user: UserFormValues) => requests.post<User>('/auth/login', user),
-    register: (user: UserFormValues) => requests.post<User>('/signup', user),
+    register: (user: UserFormValues) => requests.post<User>('/auth/signup', user),
     refreshToken: () => requests.post<User>('/account/refreshToken', {}),
     verifyEmail: (token: string, email: string) =>
         requests.post<void>(`/account/verifyEmail?token=${token}&email=${email}`, {}),

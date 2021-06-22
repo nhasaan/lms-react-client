@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Button, Header, Icon, Segment } from 'semantic-ui-react';
 import agent from '../../app/api/agent';
@@ -16,15 +17,15 @@ export default function RegisterSuccess() {
     return (
         <Segment placeholder textAlign='center'>
             <Header icon color='green'>
-                <Icon name='check'/>
+                <Icon name='check' />
                 Successfully registered!
             </Header>
-            <p>Please check your email (including junk email) for the verification email</p>
+            {/* <p>Please check your email (including junk email) for the verification email</p> */}
             {email &&
                 <>
-                    <p>Didn't receive the email?  Click the below button to resend</p>
-                    <Button primary onClick={handleConfirmEmailResend} 
-                        content='Resend email' size='huge' />
+                    {/* <p>Didn't receive the email?  Click the below button to resend</p> */}
+                    <Button primary as={Link} to={'/'}
+                        content='Go to Home' size='huge' />
                 </>
             }
         </Segment>

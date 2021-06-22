@@ -7,8 +7,9 @@ import { useStore } from '../../../app/stores/store';
 import LessonListItem from './LessonListItem';
 
 export default observer(function LessonList() {
-    const { lessonStore } = useStore();
+    const { lessonStore, userStore } = useStore();
     const { lessonsByDate } = lessonStore;
+    const { user } = userStore;
     const { courseId } = useParams<{ courseId: string }>();
 
     return (
@@ -19,13 +20,15 @@ export default observer(function LessonList() {
                         <Header color='teal'>Lesson List</Header>
                     </Grid.Column>
                     <Grid.Column width={8} >
-                        <Button
-                            as={Link}
-                            to={`/createLesson/${courseId}`}
-                            color='teal'
-                            floated='right'
-                            content='Create lesson'
-                        />
+                        {(user && user.role === 'admin') &&
+                            <Button
+                                as={Link}
+                                to={`/createLesson/${courseId}`}
+                                color='teal'
+                                floated='right'
+                                content='Create lesson'
+                            />
+                        }
                     </Grid.Column>
                 </Grid>
                 <Grid>
